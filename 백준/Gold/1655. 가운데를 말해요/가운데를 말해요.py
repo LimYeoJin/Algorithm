@@ -3,21 +3,22 @@ import sys
 
 n = int(sys.stdin.readline())
 
-leftHeap = []
-rightHeap = []
-for i in range(n):
+leftheap = []
+rightheap = []
+for i in range(n) : 
     num = int(sys.stdin.readline())
 
-    if len(leftHeap) == len(rightHeap):
-        heapq.heappush(leftHeap, -num)
-    else:
-        heapq.heappush(rightHeap, num)
+    if len(leftheap) == len(rightheap) :
+        heapq.heappush(leftheap, -num)
+    else :
+        heapq.heappush(rightheap, num)
 
-    if rightHeap and rightHeap[0] < -leftHeap[0]:
-        leftValue = heapq.heappop(leftHeap)
-        rightValue = heapq.heappop(rightHeap)
+    if rightheap and rightheap[0] < -leftheap[0] :
+        leftvalue = heapq.heappop(leftheap)
+        rightvalue = heapq.heappop(rightheap)
 
-        heapq.heappush(leftHeap, -rightValue)
-        heapq.heappush(rightHeap, -leftValue)
+        heapq.heappush(leftheap, -rightvalue)
+        heapq.heappush(rightheap, -leftvalue)
 
-    print(-leftHeap[0])
+    print(-leftheap[0])
+
