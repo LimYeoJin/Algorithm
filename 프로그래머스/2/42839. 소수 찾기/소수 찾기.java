@@ -1,45 +1,37 @@
 import java.util.*;
 
 class Solution {
-    static boolean[] visited;
-    static Set<Integer> map = new HashSet<>();
+    HashSet<Integer> numberSet = new HashSet<>();
     
-    public int solution(String numbers) {
-        visited = new boolean[numbers.length()];
-        backTracking(0, numbers, "");
-        return map.size();
-    }
-    
-    public static void backTracking(int depth, String numbers, String current) {
-        if (depth == numbers.length()) {
-            return;
-        }
-
-        for (int i = 0; i < numbers.length(); i++) {
-            if (!visited[i]) {
-                visited[i] = true;
-                String number = current + numbers.charAt(i);
-
-                if (isPrime(Integer.parseInt(number))) {
-                    map.add(Integer.parseInt(number));
-                }
-
-                backTracking(depth + 1, numbers, number);
-                visited[i] = false;
-            }
-        }
-    }
-
-    public static boolean isPrime(int n) {
-        if(n==0 || n==1) {
-            return false;
-        }
-
-        for(int i=2;i<=(int)Math.sqrt(n);i++) {
-            if(n % i == 0) {
-                return false;
-            }
+    public boolean isPrime(int num) {
+        if(num == 0 || num == 1) return false;
+        for(int i=2;i<=Math.sqrt(num);i++) {
+            if (num%i == 0) return false;
         }
         return true;
+    }
+    
+    public void recursive(String comb, String others) {
+        if (!comb.equals(""))
+            numberSet.add(Integer.valueOf(comb));
+        
+        for(int i=0;i<others.length();i++) {
+            recursive(comb+others.charAt(i), others.substring(0,i) + others.substring(i+1))   ; 
+        }    
+    }
+    public int solution(String numbers) {
+        int answer = 0;
+        // 1. 모든 조합의 숫자를 만든다.
+        recursive("", numbers);
+        // 2. 소수의 개수만 센다.
+        Iterator<Integer> it = numberSet.iterator();
+        while (it.hasNext()) {
+            int num = it.next();
+            if(isPrime(num)) {
+                answer++;
+            }
+        }
+        // 3. 소수의 개수를 반환한다.
+        return answer;
     }
 }
